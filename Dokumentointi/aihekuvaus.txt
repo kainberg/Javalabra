@@ -1,0 +1,7 @@
+Aihe: Miinaharava-peli
+
+Totetutetaan Windows-koneista tuttu Miinaharava(Minesweeper), jossa pelaaja on miinakentällä, ja yrittaa löytää miinoja räjäyttämättä niitä. Tiedossa pelaajalla on vain kuinka monta miinaa sijaitsee ruudun ympärillä.
+
+Katso myös: http://en.wikipedia.org/wiki/Minesweeper_%28video_game%29
+
+Toteutetaan ruudukkomainen miinaharava.
