@@ -32,6 +32,7 @@ public class TavallinenRuutuTest {
     @Test
     public void konstruktoriToimii() {
         TavallinenRuutu ruutu = new TavallinenRuutu(2);
+        assertNotNull(ruutu);
     }
 
     @Test
@@ -43,5 +44,35 @@ public class TavallinenRuutuTest {
     public void getNaapurimiinojenLkmToimii() {
         assertEquals(kaksi.getNaapuriMiinojenLkm(), 2);
         assertEquals(tyhja.getNaapuriMiinojenLkm(), 0);
+    }
+
+    @Test
+    public void luodullaTavallisellaRuudullaEiLippua() {
+        assertEquals(kaksi.onkoLippua(), false);
+    }
+
+    @Test
+    public void luotuTavallinenRuutuPiilossa() {
+        assertEquals(kaksi.olenkoPiilossa(), true);
+    }
+
+    @Test
+    public void muutaLippuaToimiiJosMuuttaaKerran() {
+        kaksi.muutaLippu();
+        assertEquals(kaksi.onkoLippua(), true);
+    }
+
+    @Test
+    public void muutaLippuaToimiiJosMuuttaaKaksiKertaa() {
+        kaksi.muutaLippu();
+        kaksi.muutaLippu();
+        assertEquals(kaksi.onkoLippua(), false);
+    }
+
+    @Test
+    public void eiVoiPaljastaaLiputettuaRuutua() {
+        kaksi.muutaLippu();
+        kaksi.paljastaRuutu();
+        assertEquals(kaksi.olenkoPiilossa(), true);
     }
 }

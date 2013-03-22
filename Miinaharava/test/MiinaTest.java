@@ -30,10 +30,46 @@ public class MiinaTest {
     @Test
     public void konstruktoriToimii() {
         Miina miina = new Miina();
+        assertNotNull(miina);
     }
 
     @Test
     public void onkoMiinaPalauttaaTrue() {
         assertEquals(miina.onkoMiina(), true);
+    }
+
+    @Test
+    public void getNaapuriMiinojenLkmPalauttaaMiinusYksi() {
+        assertEquals(miina.getNaapuriMiinojenLkm(), -1);
+    }
+
+    @Test
+    public void luodullaMiinallaEiLippua() {
+        assertEquals(miina.onkoLippua(), false);
+    }
+
+    @Test
+    public void luotuMiinaPiilossa() {
+        assertEquals(miina.olenkoPiilossa(), true);
+    }
+
+    @Test
+    public void muutaLippuaToimiiJosMuuttaaKerran() {
+        miina.muutaLippu();
+        assertEquals(miina.onkoLippua(), true);
+    }
+
+    @Test
+    public void muutaLippuaToimiiJosMuuttaaKaksiKertaa() {
+        miina.muutaLippu();
+        miina.muutaLippu();
+        assertEquals(miina.onkoLippua(), false);
+    }
+
+    @Test
+    public void eiVoiPaljastaaLiputettuaRuutua() {
+        miina.muutaLippu();
+        miina.paljastaRuutu();
+        assertEquals(miina.olenkoPiilossa(), true);
     }
 }
