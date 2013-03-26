@@ -1,3 +1,8 @@
+package Domain;
+
+
+import Domain.Pelilauta;
+
 //Tämä luokka toimii mainina
 
 public class Miinaharava {

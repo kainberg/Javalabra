@@ -2,6 +2,7 @@
  Testit eivät vielä tee mitään hirveän järkevää
  */
 
+import Domain.Pelilauta;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

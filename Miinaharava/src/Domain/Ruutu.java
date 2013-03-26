@@ -1,3 +1,5 @@
+package Domain;
+
 /*
  Koko tämä toteutus abstraktina luokkana? Aika paljon yhteisiä metodeja ja copy-pastea
  */

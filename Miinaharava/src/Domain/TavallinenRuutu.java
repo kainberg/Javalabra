@@ -1,3 +1,5 @@
+package Domain;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -7,14 +9,14 @@
  *
  * @author kainberg
  */
-public class Miina implements Ruutu {
+public class TavallinenRuutu implements Ruutu {
 
-    public boolean olenMiina;
+    public int naapuriMiinojenLkm;
     public boolean onkoPiilossa;
     public boolean onkoLippua;
 
-    public Miina() {
-        this.olenMiina = true;
+    public TavallinenRuutu(int naapuriMiinojenLkm) {
+        this.naapuriMiinojenLkm = naapuriMiinojenLkm;
         this.onkoPiilossa = true;
         this.onkoLippua = false;
     }
@@ -23,18 +25,19 @@ public class Miina implements Ruutu {
     public boolean olenkoPiilossa() {
         return onkoPiilossa;
     }
-
+    
     @Override
     public boolean onkoLippua() {
         return onkoLippua;
     }
+    
 
     @Override
     public void muutaLippu() {
         if (olenkoPiilossa()) {
             if (onkoLippua == false) {
                 onkoLippua = true;
-            } else {
+            } else{
                 onkoLippua = false;
             }
         }
@@ -49,16 +52,16 @@ public class Miina implements Ruutu {
 
     @Override
     public int getNaapuriMiinojenLkm() {
-        return -1;
+        return naapuriMiinojenLkm;
     }
 
     @Override
     public boolean onkoMiina() {
-        return olenMiina;
+        return false;
     }
 
     @Override
     public String toString() {
-        return "M";
+        return "" + getNaapuriMiinojenLkm();
     }
 }

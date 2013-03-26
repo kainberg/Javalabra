@@ -1,3 +1,8 @@
+package Domain;
+
+
+import Domain.Ruutu;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -7,14 +12,14 @@
  *
  * @author kainberg
  */
-public class TavallinenRuutu implements Ruutu {
+public class Miina implements Ruutu {
 
-    public int naapuriMiinojenLkm;
+    public boolean olenMiina;
     public boolean onkoPiilossa;
     public boolean onkoLippua;
 
-    public TavallinenRuutu(int naapuriMiinojenLkm) {
-        this.naapuriMiinojenLkm = naapuriMiinojenLkm;
+    public Miina() {
+        this.olenMiina = true;
         this.onkoPiilossa = true;
         this.onkoLippua = false;
     }
@@ -23,19 +28,18 @@ public class TavallinenRuutu implements Ruutu {
     public boolean olenkoPiilossa() {
         return onkoPiilossa;
     }
-    
+
     @Override
     public boolean onkoLippua() {
         return onkoLippua;
     }
-    
 
     @Override
     public void muutaLippu() {
         if (olenkoPiilossa()) {
             if (onkoLippua == false) {
                 onkoLippua = true;
-            } else{
+            } else {
                 onkoLippua = false;
             }
         }
@@ -50,16 +54,16 @@ public class TavallinenRuutu implements Ruutu {
 
     @Override
     public int getNaapuriMiinojenLkm() {
-        return naapuriMiinojenLkm;
+        return -1;
     }
 
     @Override
     public boolean onkoMiina() {
-        return false;
+        return olenMiina;
     }
 
     @Override
     public String toString() {
-        return "" + getNaapuriMiinojenLkm();
+        return "M";
     }
 }
