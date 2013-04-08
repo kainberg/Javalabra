@@ -1,13 +1,7 @@
 package Domain;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- *
- * @author kainberg
+ * Miinaharavaan kuuluva miinaton ruutu, joka toteuttaa rajapinnan Ruutu.
  */
 public class TavallinenRuutu implements Ruutu {
 
@@ -21,28 +15,40 @@ public class TavallinenRuutu implements Ruutu {
         this.onkoLippua = false;
     }
 
+    /**
+     * Metodi palauttaa tiedon siitä onko ruutu piilossa.
+     */
     @Override
     public boolean olenkoPiilossa() {
         return onkoPiilossa;
     }
-    
+
+    /**
+     * Metodi palauttaa tiedon siitä onko ruudussa lippu.
+     */
     @Override
     public boolean onkoLippua() {
         return onkoLippua;
     }
-    
 
+    /**
+     * Metodi muuttaa lipun statuksen: jos ruudussa on lippu, se otetaan pois,
+     * ja jos ei ole lippua, niin laitetaan lippu.
+     */
     @Override
     public void muutaLippu() {
         if (olenkoPiilossa()) {
             if (onkoLippua == false) {
                 onkoLippua = true;
-            } else{
+            } else {
                 onkoLippua = false;
             }
         }
     }
 
+    /**
+     * Metodi paljastaa ruudun jos ruudussa ei ole lippua.
+     */
     @Override
     public void paljastaRuutu() {
         if (onkoLippua == false) {
@@ -50,11 +56,19 @@ public class TavallinenRuutu implements Ruutu {
         }
     }
 
+    /**
+     * Metodi palauttaa naapurimiinojen lukumäärän.
+     */
     @Override
     public int getNaapuriMiinojenLkm() {
         return naapuriMiinojenLkm;
     }
 
+    /**
+     * Metodi palauttaa tiedon siitä, että kyseessä ei ole miina.
+     *
+     * @return false
+     */
     @Override
     public boolean onkoMiina() {
         return false;
