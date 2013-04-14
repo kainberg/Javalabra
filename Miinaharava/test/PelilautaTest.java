@@ -160,4 +160,74 @@ public class PelilautaTest {
         helppo.ruutujenAsettaja();
         assertEquals(1, helppo.getRuutu(2, 2).getNaapuriMiinojenLkm());
     }
+
+    @Test
+    public void onkoIndeksitKunnollaToimiiOikeallaSyotteella() {
+        boolean testattava = helppo.onkoIndeksitKunnossa(1, 1);
+        assertEquals(true, testattava);
+    }
+
+    @Test
+    public void onkoIndeksitKunnollaToimiiVaarallaSyotteella() {
+        boolean testattava = helppo.onkoIndeksitKunnossa(14, 1);
+        assertEquals(false, testattava);
+    }
+
+    @Test
+    public void paljastaRuutuToimii() {
+        helppo.asetaMiinat();
+        helppo.ruutujenAsettaja();
+        helppo.paljastaRuutu(1, 1);
+        assertEquals(false, helppo.getRuutu(1, 1).olenkoPiilossa());
+    }
+
+    @Test
+    public void laitaLippuToimiiKerran() {
+        helppo.asetaMiinat();
+        helppo.ruutujenAsettaja();
+        helppo.laitaLippu(1, 1);
+        assertEquals(true, helppo.getRuutu(1, 1).onkoLippua());
+    }
+
+    @Test
+    public void laitaLippuToimiiKaksiKertaa() {
+        helppo.asetaMiinat();
+        helppo.ruutujenAsettaja();
+        helppo.laitaLippu(1, 1);
+        helppo.laitaLippu(1, 1);
+        assertEquals(false, helppo.getRuutu(1, 1).onkoLippua());
+    }
+
+    @Test
+    public void onkoLippuaToimiiLipulla() {
+        helppo.asetaMiinat();
+        helppo.ruutujenAsettaja();
+        helppo.laitaLippu(1, 1);
+
+        assertEquals(true, helppo.getRuutu(1, 1).onkoLippua());
+    }
+
+    @Test
+    public void onkoLippuaToimiiIlmanLippua() {
+        helppo.asetaMiinat();
+        helppo.ruutujenAsettaja();
+        helppo.laitaLippu(1, 1);
+        helppo.laitaLippu(1, 1);
+        assertEquals(false, helppo.getRuutu(1, 1).onkoLippua());
+    }
+
+    @Test
+    public void onkoPiilossaToimiiKunRuutuPiilossa() {
+        helppo.asetaMiinat();
+        helppo.ruutujenAsettaja();
+        assertEquals(true, helppo.getRuutu(1, 1).olenkoPiilossa());
+    }
+
+    @Test
+    public void onkoPiilossaToimiiKunRuutuEiPiilossa() {
+        helppo.asetaMiinat();
+        helppo.ruutujenAsettaja();
+        helppo.paljastaRuutu(1, 1);
+        assertEquals(false, helppo.getRuutu(1, 1).olenkoPiilossa());
+    }
 }

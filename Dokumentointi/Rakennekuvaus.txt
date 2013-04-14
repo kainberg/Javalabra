@@ -1,0 +1,1 @@
+Miinaharava-ohjelman Miinaharava luokka toimii mainina. Luokkassa voi valita vaikeustason, jonka jälkeen luokka käynnistää halautu graaffisen käyttöliittymäluokan GUI. GUI luo oikean kokoisen Pelilaudan, joka on pelin lgiikkaluokka. Pelilauta luo sitten sopivan määräm TavallisiaRuutuja ja MKiinoja, jotka toteuttavat rajapinnan Ruutu. 

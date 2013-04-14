@@ -27,7 +27,7 @@ public class Pelilauta {
 
     public Pelilauta(int leveys, int korkeus, int miinoja) {
         this.ruudut = new Ruutu[leveys][korkeus];
-        if (miinoja > leveys * korkeus || miinoja < 1) {
+        if (miinoja > leveys * korkeus) {
             this.miinojenLkm = leveys * korkeus - 1; //ei voi laittaa enemmän miinoja kuin ruutuja
         } else if (miinoja <= 0) {
             this.miinojenLkm = 1;
@@ -48,6 +48,51 @@ public class Pelilauta {
      */
     public void setRuutu(int leveys, int korkeus, int naapuriMiinoja) {
         this.ruudut[leveys][korkeus] = new TavallinenRuutu(naapuriMiinoja);
+    }
+
+    /**
+     * Metodi paljastaa ruudun.
+     *
+     * @param x
+     * @param y
+     */
+    public void paljastaRuutu(int x, int y) {
+        ruudut[x][y].paljastaRuutu();
+    }
+
+    /**
+     * Metodi muuttaa lipun statuksen. Jos ruudussa on lippu, se lähtee pois, ja
+     * jos ruudussa ei ole lippua siihen tulee lippu.
+     *
+     * @param x
+     * @param y
+     */
+    public void laitaLippu(int x, int y) {
+        ruudut[x][y].muutaLippu();
+    }
+
+    /**
+     * Metodi palauttaa true jos ruudussa on lippu.
+     *
+     * @param x
+     * @param y
+     * @return
+     */
+    public boolean onkoLippua(int x, int y) {
+        boolean palautettava = ruudut[x][y].onkoLippua();
+        return palautettava;
+    }
+
+    /**
+     * Metodi palauttaa true jos ruutu on piilossa, eli jos sitä ei ole avattu.
+     *
+     * @param x
+     * @param y
+     * @return
+     */
+    public boolean onkoPiilossa(int x, int y) {
+        boolean palautettava = ruudut[x][y].olenkoPiilossa();
+        return palautettava;
     }
 
     /**
@@ -93,7 +138,7 @@ public class Pelilauta {
         Random generator = new Random();
         int xRandom = generator.nextInt(leveys);
         int yRandom = generator.nextInt(korkeus);
-        boolean olikoVanhaMiina = false;
+
 
         for (int i = 0; i < miinojenLkm; i++) {
             if (ruudut[xRandom][yRandom] == null) {
@@ -120,7 +165,7 @@ public class Pelilauta {
         for (int i = xKoordinaatti - 1; i <= xKoordinaatti + 1; i++) {
             for (int j = yKoordinaatti - 1; j <= yKoordinaatti + 1; j++) {
                 //tarkistetaan ollaanko matriisissa
-                if (i < 0 || j < 0 || i > leveys - 1 || j > korkeus - 1) {
+                if (!onkoIndeksitKunnossa(i, j)) {
                     //ei tehdä mitään
                 } else {
                     if (getRuutu(i, j) != null) {
@@ -154,5 +199,12 @@ public class Pelilauta {
 
             }
         }
+    }
+
+    public boolean onkoIndeksitKunnossa(int x, int y) {
+        if (x < 0 || y < 0 || x > leveys - 1 || y > korkeus - 1) {
+            return false;
+        }
+        return true;
     }
 }

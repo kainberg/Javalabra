@@ -14,3 +14,10 @@ Tuntikirjanpito
 2.4		1h
 3.4		3h
 8.4		1h
+9.4		3h
+10.4		2h
+11.4		2h
+	Koodikatselmointi + 0,5h
+12.4		2h
+13.4		4h
+14.4		3h
