@@ -21,3 +21,5 @@ Tuntikirjanpito
 12.4		2h
 13.4		4h
 14.4		3h
+15.4		1h
+16.4		0,5h
