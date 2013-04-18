@@ -26,19 +26,24 @@ public class GUI extends JFrame implements MouseListener {
     private JButton paljastaKaikkiNappula;
     private JButton uusiPeli;
     private JTextField sanoma;
+    private JTextField highScore;
     private JButton[][] ruudut;
     private boolean eiOsuttuMiinaan;
 
-    public GUI(int leveys, int korkeus, int miinoja) {
+    public GUI(int leveys, int korkeus, int miinoja, boolean onkoPikapeli) {
         final int leveysFinal = leveys;
         final int korkeusFinal = korkeus;
         final int miinojaFinal = miinoja;
+        int klikkauksia = 0;
         peli = new Pelilauta(leveysFinal, korkeusFinal, miinojaFinal);
         paljastaKaikkiNappula = new JButton("Tarkista");
         sanoma = new JTextField();
         sanoma.setText("Hyvin menee!");
         eiOsuttuMiinaan = true;
         uusiPeli = new JButton("Uusi peli");
+
+        highScore = new JTextField();
+        highScore.setText("hmm");
 
         ruudut = new JButton[peli.leveys][peli.korkeus];
 
@@ -65,7 +70,7 @@ public class GUI extends JFrame implements MouseListener {
                                     }
                                 }
 
-
+                                //käsitellään ruudun painaminen
                                 if (!peli.getRuutu(xKoordinaatti, yKoordinaatti).onkoLippua() && peli.getRuutu(xKoordinaatti, yKoordinaatti).olenkoPiilossa()) {
                                     if (peli.getRuutu(xKoordinaatti, yKoordinaatti).onkoMiina()) {
                                         peli.paljastaRuutu(xKoordinaatti, yKoordinaatti);
@@ -107,36 +112,36 @@ public class GUI extends JFrame implements MouseListener {
         //tarkistusnappula
         paljastaKaikkiNappula.addActionListener(
                 new ActionListener() {
-                    public void actionPerformed(ActionEvent tapahtuma) {
+            public void actionPerformed(ActionEvent tapahtuma) {
 
-                        int counter = 0;
-                        for (int k = 0; k < peli.leveys; k++) {
-                            for (int l = 0; l < peli.korkeus; l++) {
-                                if (peli.getRuutu(k, l).olenkoPiilossa()) {
-                                    counter++;
-                                }
-                            }
-                        }
-
-                        if (counter == peli.miinojenLkm && eiOsuttuMiinaan) {
-                            sanoma.setText("Onneksi olkoon!");
-                        } else {
-                            eiOsuttuMiinaan = true;
-                            for (int k = 0; k < peli.leveys; k++) {
-                                for (int l = 0; l < peli.korkeus; l++) {
-                                    if (peli.getRuutu(k, l).olenkoPiilossa()) {
-                                        ruudut[k][l].doClick();
-                                        eiOsuttuMiinaan = true;
-                                    }
-                                }
-                            }
-
-                            sanoma.setText("Lol");
-
-
+                int counter = 0;
+                for (int k = 0; k < peli.leveys; k++) {
+                    for (int l = 0; l < peli.korkeus; l++) {
+                        if (peli.getRuutu(k, l).olenkoPiilossa()) {
+                            counter++;
                         }
                     }
-                });
+                }
+
+                if (counter == peli.miinojenLkm && eiOsuttuMiinaan) {
+                    sanoma.setText("Onneksi olkoon!");
+                } else {
+                    eiOsuttuMiinaan = true;
+                    for (int k = 0; k < peli.leveys; k++) {
+                        for (int l = 0; l < peli.korkeus; l++) {
+                            if (peli.getRuutu(k, l).olenkoPiilossa()) {
+                                ruudut[k][l].doClick();
+                                eiOsuttuMiinaan = true;
+                            }
+                        }
+                    }
+
+                    sanoma.setText("Lol");
+
+
+                }
+            }
+        });
 
 
         //uusi peli-nappula
@@ -165,10 +170,19 @@ public class GUI extends JFrame implements MouseListener {
         });
 
         //GUI-säätämistä
-        JPanel paneeli = new JPanel(new GridLayout(1, 3));
-        paneeli.add(paljastaKaikkiNappula);
-        paneeli.add(sanoma);
-        paneeli.add(uusiPeli);
+        JPanel paneeli;
+        if (onkoPikapeli) {
+            paneeli = new JPanel(new GridLayout(1, 4));
+            paneeli.add(paljastaKaikkiNappula);
+            paneeli.add(sanoma);
+            paneeli.add(uusiPeli);
+            paneeli.add(highScore);
+        } else {
+            paneeli = new JPanel(new GridLayout(1, 3));
+            paneeli.add(paljastaKaikkiNappula);
+            paneeli.add(sanoma);
+            paneeli.add(uusiPeli);
+        }
 
 
         JPanel paneeli2 = new JPanel(new GridLayout(peli.leveys, peli.korkeus));
@@ -203,32 +217,8 @@ public class GUI extends JFrame implements MouseListener {
                         }
                     }
                 }
-
-
-                //Painettiin vasenta nappia
-                if (e.getButton() == MouseEvent.BUTTON1) {
-                    if (!peli.getRuutu(xKoordinaatti, yKoordinaatti).onkoLippua() && peli.getRuutu(xKoordinaatti, yKoordinaatti).olenkoPiilossa()) {
-                        if (peli.getRuutu(xKoordinaatti, yKoordinaatti).onkoMiina()) {
-                            peli.paljastaRuutu(xKoordinaatti, yKoordinaatti);
-                            ((JButton) e.getSource()).setBackground(Color.red);
-                            eiOsuttuMiinaan = false;
-                            sanoma.setText("Hävisit");
-                        } else {
-                            int naapuriMiinoja = peli.getRuutu(xKoordinaatti, yKoordinaatti).getNaapuriMiinojenLkm();
-                            peli.paljastaRuutu(xKoordinaatti, yKoordinaatti);
-                            if (naapuriMiinoja != 0) {
-                                ((JButton) e.getSource()).setText("" + naapuriMiinoja);
-                            } else {
-                                ((JButton) e.getSource()).setBackground(Color.GRAY);
-                                klikkaaja(xKoordinaatti, yKoordinaatti);
-
-                            }
-
-                        }
-                    }
-
-                } //Painettiin oikeaa nappia
-                else if (e.getButton() == MouseEvent.BUTTON3) {
+                //Painettiin oikeaa nappia
+                if (e.getButton() == MouseEvent.BUTTON3) {
                     if (peli.onkoPiilossa(xKoordinaatti, yKoordinaatti)) {
                         peli.laitaLippu(xKoordinaatti, yKoordinaatti);
                         if (peli.onkoLippua(xKoordinaatti, yKoordinaatti)) {

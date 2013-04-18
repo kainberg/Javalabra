@@ -26,7 +26,7 @@ public class Miinaharava {
                 JOptionPane.YES_NO_OPTION);
 
         if (n == 0) {
-            kaynnistaja(9, 9, 10);
+            kaynnistaja(9, 9, 10,true);
         } else {
             String leveys;
             String korkeus;
@@ -58,12 +58,12 @@ public class Miinaharava {
             }
 
 
-            kaynnistaja(leveysInt, korkeusInt, miinojaInt);
+            kaynnistaja(leveysInt, korkeusInt, miinojaInt,false);
         }
     }
 
-    public static void kaynnistaja(int l, int k, int m) {
-        GUI peli = new GUI(k, l, m);
+    public static void kaynnistaja(int l, int k, int m, boolean b) {
+        GUI peli = new GUI(k, l, m,b);
         peli.setTitle("Miinaharava");
         peli.pack();
         peli.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // osaa loppua
