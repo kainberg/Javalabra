@@ -1,0 +1,5 @@
+Miinaharavapelin alussa kysytään jos halutaan pelata pikapeli. Jos valitaav yes ilmestyy 9x9 peli, jossa on 10 miinaa. Tässä moodissa on myös highscore toiminto.
+
+Jos valitaan ei, niin voidaan itse valita kuinka iso pelilauta halutaan. Myös miinojen määrän voi valita.
+
+Ruutua painamalla esille tulee tieto siitä kuinka monta miinaa koskettaa kyseistä ruutua. Pelin tavoitteena on löytää kaikki miinat. Kun löytää miinan, niin oikealla hiirenpainikkeella voidaan merkitä että kyseessä on miina. Kun ollaan löydetty kaikki miinat painetaan Tarkasta-nappia. Peli ilmoittaa jos olet voittanut tai hävinnyt.

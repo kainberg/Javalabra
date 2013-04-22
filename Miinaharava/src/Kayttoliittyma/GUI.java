@@ -14,6 +14,9 @@ import java.awt.event.*;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Miinaharava-pelin graafinen käyttöliittymä.
@@ -41,7 +44,8 @@ public class GUI extends JFrame implements MouseListener {
         sanoma.setText("Hyvin menee!");
         eiOsuttuMiinaan = true;
         uusiPeli = new JButton("Uusi peli");
-
+        final HighScore score=new HighScore();
+        score.start();
         highScore = new JTextField();
         highScore.setText("hmm");
 
@@ -56,43 +60,43 @@ public class GUI extends JFrame implements MouseListener {
                 ruudut[i][j].addMouseListener(this);
                 ruudut[i][j].addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent tapahtuma) {
-                        if (eiOsuttuMiinaan) {
-                            if (tapahtuma.getSource() instanceof JButton) {
-                                //etsitään koordinaatit
-                                int xKoordinaatti = 0;
-                                int yKoordinaatti = 0;
-                                for (int k = 0; k < peli.leveys; k++) {
-                                    for (int l = 0; l < peli.korkeus; l++) {
-                                        if (ruudut[k][l] == tapahtuma.getSource()) {
-                                            xKoordinaatti = k;
-                                            yKoordinaatti = l;
-                                        }
+                        if (eiOsuttuMiinaan && tapahtuma.getSource() instanceof JButton) {
+
+                            //etsitään koordinaatit
+                            int xKoordinaatti = 0;
+                            int yKoordinaatti = 0;
+                            for (int k = 0; k < peli.leveys; k++) {
+                                for (int l = 0; l < peli.korkeus; l++) {
+                                    if (ruudut[k][l] == tapahtuma.getSource()) {
+                                        xKoordinaatti = k;
+                                        yKoordinaatti = l;
                                     }
                                 }
-
-                                //käsitellään ruudun painaminen
-                                if (!peli.getRuutu(xKoordinaatti, yKoordinaatti).onkoLippua() && peli.getRuutu(xKoordinaatti, yKoordinaatti).olenkoPiilossa()) {
-                                    if (peli.getRuutu(xKoordinaatti, yKoordinaatti).onkoMiina()) {
-                                        peli.paljastaRuutu(xKoordinaatti, yKoordinaatti);
-                                        ((JButton) tapahtuma.getSource()).setBackground(Color.red);
-                                        eiOsuttuMiinaan = false;
-                                        sanoma.setText("Hävisit");
-                                    } else {
-                                        int naapuriMiinoja = peli.getRuutu(xKoordinaatti, yKoordinaatti).getNaapuriMiinojenLkm();
-                                        peli.paljastaRuutu(xKoordinaatti, yKoordinaatti);
-                                        if (naapuriMiinoja != 0) {
-                                            ((JButton) tapahtuma.getSource()).setText("" + naapuriMiinoja);
-                                        } else {
-                                            ((JButton) tapahtuma.getSource()).setBackground(Color.GRAY);
-                                            klikkaaja(xKoordinaatti, yKoordinaatti);
-
-                                        }
-
-                                    }
-                                }
-
-
                             }
+
+                            //käsitellään ruudun painaminen
+                            if (!peli.getRuutu(xKoordinaatti, yKoordinaatti).onkoLippua() && peli.getRuutu(xKoordinaatti, yKoordinaatti).olenkoPiilossa()) {
+                                if (peli.getRuutu(xKoordinaatti, yKoordinaatti).onkoMiina()) {
+                                    peli.paljastaRuutu(xKoordinaatti, yKoordinaatti);
+                                    ((JButton) tapahtuma.getSource()).setBackground(Color.red);
+                                    eiOsuttuMiinaan = false;
+                                    sanoma.setText("Hävisit");
+                                } else {
+                                    int naapuriMiinoja = peli.getRuutu(xKoordinaatti, yKoordinaatti).getNaapuriMiinojenLkm();
+                                    peli.paljastaRuutu(xKoordinaatti, yKoordinaatti);
+                                    if (naapuriMiinoja != 0) {
+                                        ((JButton) tapahtuma.getSource()).setText("" + naapuriMiinoja);
+                                    } else {
+                                        ((JButton) tapahtuma.getSource()).setBackground(Color.GRAY);
+                                        klikkaaja(xKoordinaatti, yKoordinaatti);
+
+                                    }
+
+                                }
+                            }
+
+
+
                         }
                     }
                 });
@@ -125,6 +129,12 @@ public class GUI extends JFrame implements MouseListener {
 
                 if (counter == peli.miinojenLkm && eiOsuttuMiinaan) {
                     sanoma.setText("Onneksi olkoon!");
+                    try {
+                        score.stop();
+                        score.updateHighScore();
+                    } catch (IOException ex) {
+                        Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 } else {
                     eiOsuttuMiinaan = true;
                     for (int k = 0; k < peli.leveys; k++) {
@@ -166,6 +176,10 @@ public class GUI extends JFrame implements MouseListener {
                         }
                     }
                 }
+                score.stop();
+                score.nollaus();
+                score.start();
+                
             }
         });
 
@@ -200,7 +214,7 @@ public class GUI extends JFrame implements MouseListener {
 
     }
 
-    //Ruudun painamisen käsittelijä
+    //Oikean klikkauksen käsittelijä
     @Override
     public void mousePressed(MouseEvent e) {
 

@@ -12,8 +12,7 @@ public class HighScore {
     public long startTime = 0;
     public long stopTime = 0;
     public boolean running = false;
-    public long bestTime;
-    
+
     public void start() {
         this.startTime = System.currentTimeMillis();
         this.running = true;
@@ -30,14 +29,16 @@ public class HighScore {
         running = false;
     }
 
-    public long getHighScore() {
-        //metodi palauttaa highscoren
-        return bestTime;
-    }
 
-    public void updateHighScore(int uusiHighScore) {
+    public void updateHighScore() throws IOException {
         //metodi muuttaa highscoren
-        
+        FileWriter fstream = new FileWriter("score.txt");
+        BufferedWriter out = new BufferedWriter(fstream);
+        long ehdokas=this.getKulunutAika();
+        out.write(Long.toString(ehdokas) );
+        //Close the output stream
+        out.close();
+
     }
 
     //kulunut aika millisekunneissa
