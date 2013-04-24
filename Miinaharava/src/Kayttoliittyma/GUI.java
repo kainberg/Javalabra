@@ -33,7 +33,7 @@ public class GUI extends JFrame implements MouseListener {
     private JButton[][] ruudut;
     private boolean eiOsuttuMiinaan;
 
-    public GUI(int leveys, int korkeus, int miinoja, boolean onkoPikapeli) {
+    public GUI(int leveys, int korkeus, int miinoja, boolean onkoPikapeli) throws IOException {
         final int leveysFinal = leveys;
         final int korkeusFinal = korkeus;
         final int miinojaFinal = miinoja;
@@ -44,10 +44,10 @@ public class GUI extends JFrame implements MouseListener {
         sanoma.setText("Hyvin menee!");
         eiOsuttuMiinaan = true;
         uusiPeli = new JButton("Uusi peli");
-        final HighScore score=new HighScore();
+        final HighScore score = new HighScore();
         score.start();
         highScore = new JTextField();
-        highScore.setText("hmm");
+        highScore.setText(score.getHighScore());
 
         ruudut = new JButton[peli.leveys][peli.korkeus];
 
@@ -116,42 +116,43 @@ public class GUI extends JFrame implements MouseListener {
         //tarkistusnappula
         paljastaKaikkiNappula.addActionListener(
                 new ActionListener() {
-            public void actionPerformed(ActionEvent tapahtuma) {
+                    public void actionPerformed(ActionEvent tapahtuma) {
 
-                int counter = 0;
-                for (int k = 0; k < peli.leveys; k++) {
-                    for (int l = 0; l < peli.korkeus; l++) {
-                        if (peli.getRuutu(k, l).olenkoPiilossa()) {
-                            counter++;
-                        }
-                    }
-                }
-
-                if (counter == peli.miinojenLkm && eiOsuttuMiinaan) {
-                    sanoma.setText("Onneksi olkoon!");
-                    try {
-                        score.stop();
-                        score.updateHighScore();
-                    } catch (IOException ex) {
-                        Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                } else {
-                    eiOsuttuMiinaan = true;
-                    for (int k = 0; k < peli.leveys; k++) {
-                        for (int l = 0; l < peli.korkeus; l++) {
-                            if (peli.getRuutu(k, l).olenkoPiilossa()) {
-                                ruudut[k][l].doClick();
-                                eiOsuttuMiinaan = true;
+                        int counter = 0;
+                        for (int k = 0; k < peli.leveys; k++) {
+                            for (int l = 0; l < peli.korkeus; l++) {
+                                if (peli.getRuutu(k, l).olenkoPiilossa()) {
+                                    counter++;
+                                }
                             }
                         }
+
+                        if (counter == peli.miinojenLkm && eiOsuttuMiinaan) {
+                            sanoma.setText("Onneksi olkoon!");
+                            try {
+                                score.stop();
+                                score.updateHighScore();
+                                highScore.setText(score.getHighScore());
+                            } catch (IOException ex) {
+                                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        } else {
+                            eiOsuttuMiinaan = true;
+                            for (int k = 0; k < peli.leveys; k++) {
+                                for (int l = 0; l < peli.korkeus; l++) {
+                                    if (peli.getRuutu(k, l).olenkoPiilossa()) {
+                                        ruudut[k][l].doClick();
+                                        eiOsuttuMiinaan = true;
+                                    }
+                                }
+                            }
+
+                            sanoma.setText("Lol");
+
+
+                        }
                     }
-
-                    sanoma.setText("Lol");
-
-
-                }
-            }
-        });
+                });
 
 
         //uusi peli-nappula
@@ -179,7 +180,7 @@ public class GUI extends JFrame implements MouseListener {
                 score.stop();
                 score.nollaus();
                 score.start();
-                
+
             }
         });
 

@@ -10,6 +10,7 @@ import java.awt.event.*;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.io.IOException;
 
 /**
  * Miinaharava-pelin main.
@@ -18,7 +19,7 @@ import java.awt.GridLayout;
  */
 public class Miinaharava {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         int n = JOptionPane.showConfirmDialog(
                 null,
                 "Pikapeli?",
@@ -62,7 +63,7 @@ public class Miinaharava {
         }
     }
 
-    public static void kaynnistaja(int l, int k, int m, boolean b) {
+    public static void kaynnistaja(int l, int k, int m, boolean b) throws IOException {
         GUI peli = new GUI(k, l, m,b);
         peli.setTitle("Miinaharava");
         peli.pack();
