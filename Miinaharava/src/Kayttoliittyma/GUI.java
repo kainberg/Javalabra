@@ -1,7 +1,7 @@
 package Kayttoliittyma;
 
 /*
- Spagettiluokka, refraktorointi meneillään
+ Miinaharavan graafinen käyttöliittymä.
  */
 /**
  *
@@ -34,11 +34,12 @@ public class GUI extends JFrame implements MouseListener {
     private boolean eiOsuttuMiinaan;
 
     public GUI(int leveys, int korkeus, int miinoja, boolean onkoPikapeli) throws IOException {
-        final int leveysFinal = leveys;
-        final int korkeusFinal = korkeus;
-        final int miinojaFinal = miinoja;
-        int klikkauksia = 0;
-        peli = new Pelilauta(leveysFinal, korkeusFinal, miinojaFinal);
+        peli = new Pelilauta(leveys, korkeus, miinoja);
+        final int leveysFinal = peli.leveys;
+        final int korkeusFinal = peli.korkeus;
+        final int miinojaFinal = peli.miinojenLkm;
+
+        //luodaan nappulat
         paljastaKaikkiNappula = new JButton("Tarkista");
         sanoma = new JTextField();
         sanoma.setText("Hyvin menee!");
@@ -47,7 +48,7 @@ public class GUI extends JFrame implements MouseListener {
         final HighScore score = new HighScore();
         score.start();
         highScore = new JTextField();
-        highScore.setText(score.getHighScore());
+        highScore.setText(score.getHighScore() + "ms");
 
         ruudut = new JButton[peli.leveys][peli.korkeus];
 
@@ -110,49 +111,48 @@ public class GUI extends JFrame implements MouseListener {
         //alustetaan peli
 
         peli.asetaMiinat();
-
         peli.ruutujenAsettaja();
 
         //tarkistusnappula
         paljastaKaikkiNappula.addActionListener(
                 new ActionListener() {
-                    public void actionPerformed(ActionEvent tapahtuma) {
+            public void actionPerformed(ActionEvent tapahtuma) {
 
-                        int counter = 0;
-                        for (int k = 0; k < peli.leveys; k++) {
-                            for (int l = 0; l < peli.korkeus; l++) {
-                                if (peli.getRuutu(k, l).olenkoPiilossa()) {
-                                    counter++;
-                                }
-                            }
-                        }
-
-                        if (counter == peli.miinojenLkm && eiOsuttuMiinaan) {
-                            sanoma.setText("Onneksi olkoon!");
-                            try {
-                                score.stop();
-                                score.updateHighScore();
-                                highScore.setText(score.getHighScore());
-                            } catch (IOException ex) {
-                                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        } else {
-                            eiOsuttuMiinaan = true;
-                            for (int k = 0; k < peli.leveys; k++) {
-                                for (int l = 0; l < peli.korkeus; l++) {
-                                    if (peli.getRuutu(k, l).olenkoPiilossa()) {
-                                        ruudut[k][l].doClick();
-                                        eiOsuttuMiinaan = true;
-                                    }
-                                }
-                            }
-
-                            sanoma.setText("Lol");
-
-
+                int counter = 0;
+                for (int k = 0; k < peli.leveys; k++) {
+                    for (int l = 0; l < peli.korkeus; l++) {
+                        if (peli.getRuutu(k, l).olenkoPiilossa()) {
+                            counter++;
                         }
                     }
-                });
+                }
+
+                if (counter == peli.miinojenLkm && eiOsuttuMiinaan) {
+                    sanoma.setText("Onneksi olkoon!");
+                    try {
+                        score.stop();
+                        score.updateHighScore();
+                        highScore.setText(score.getHighScore() + "ms");
+                    } catch (IOException ex) {
+                        Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    eiOsuttuMiinaan = true;
+                    for (int k = 0; k < peli.leveys; k++) {
+                        for (int l = 0; l < peli.korkeus; l++) {
+                            if (peli.getRuutu(k, l).olenkoPiilossa()) {
+                                ruudut[k][l].doClick();
+                                eiOsuttuMiinaan = true;
+                            }
+                        }
+                    }
+
+                    sanoma.setText("Lol");
+
+
+                }
+            }
+        });
 
 
         //uusi peli-nappula
@@ -264,6 +264,7 @@ public class GUI extends JFrame implements MouseListener {
     public void mouseExited(MouseEvent e) {
     }
 
+    //apumetodi
     public void klikkaaja(int x, int y) {
         for (int tyjhaApuX = -1; tyjhaApuX <= 1; tyjhaApuX++) {
             for (int tyjhaApuY = -1; tyjhaApuY <= 1; tyjhaApuY++) {

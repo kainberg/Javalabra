@@ -67,10 +67,10 @@ public class HighScore {
      */
     public void updateHighScore() throws IOException {
         //tarkistetaan jos uusi on parempi
-        long ehdokas = this.getKulunutAika();
-        long vanha = Long.parseLong(getHighScore());
-        int onkoPienempi = Long.compare(ehdokas, vanha);
-        if (onkoPienempi > 0) {
+        Long ehdokas = this.getKulunutAika();
+        Long vanha = Long.parseLong(getHighScore());
+        int onkoPienempi = ehdokas.compareTo(vanha);
+        if (onkoPienempi < 0) {
             //metodi muuttaa highscoren
             FileWriter fstream = new FileWriter("score.txt");
             BufferedWriter out = new BufferedWriter(fstream);

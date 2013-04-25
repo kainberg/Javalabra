@@ -18,6 +18,9 @@ public class Pelilauta {
     public int leveys;
     public int korkeus;
 
+    /**
+     * Konstruktori.
+     */
     public Pelilauta() {
         this.ruudut = new Ruutu[9][9];
         this.miinojenLkm = 10;
@@ -25,18 +28,50 @@ public class Pelilauta {
         this.korkeus = 9;
     }
 
+    /**
+     * Konstruktori.
+     *
+     * @param leveys
+     * @param korkeus
+     * @param miinoja
+     */
     public Pelilauta(int leveys, int korkeus, int miinoja) {
-        this.ruudut = new Ruutu[leveys][korkeus];
+        int ruudunLeveys;
+        int ruudunKorkeus;
+
+        //tarkistetaan leveys
+        if (leveys <= 0) {
+            this.leveys = 1;
+            ruudunLeveys = 1;
+        } else if (leveys > 25) {
+            this.leveys = 25;
+            ruudunLeveys = 25;
+        } else {
+            this.leveys = leveys;
+            ruudunLeveys = leveys;
+        }
+
+        //tarkistetaan korkeus
+        if (korkeus <= 0) {
+            this.korkeus = 1;
+            ruudunKorkeus = 1;
+        } else if (korkeus > 25) {
+            this.korkeus = 25;
+            ruudunKorkeus = 25;
+        } else {
+            this.korkeus = korkeus;
+            ruudunKorkeus = korkeus;
+        }
+
+
+        this.ruudut = new Ruutu[ruudunLeveys][ruudunKorkeus];
         if (miinoja > leveys * korkeus) {
             this.miinojenLkm = leveys * korkeus - 1; //ei voi laittaa enemmän miinoja kuin ruutuja
         } else if (miinoja <= 0) {
-            this.miinojenLkm = 1;
+            this.miinojenLkm = 1; //pakko laittaa vähintään 1 miina
         } else {
             this.miinojenLkm = miinoja;
         }
-
-        this.leveys = leveys;
-        this.korkeus = korkeus;
     }
 
     /**
